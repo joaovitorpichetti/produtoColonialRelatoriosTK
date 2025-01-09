@@ -7,35 +7,6 @@ from reportlab.lib.pagesizes import letter
 
 
 # --- Função para autenticação com TOKEN ---
-"""class TelaLogin:
-    def __init__(self):
-        self.janela = Tk()
-        self.janela.title("Tela de Login")
-        self.janela.geometry("400x200")
-
-        self.label_token = Label(self.janela, text="Insira o TOKEN:")
-        self.label_token.pack(pady=20)
-
-        self.entry_token = Entry(self.janela, show="*")
-        self.entry_token.pack(pady=5)
-
-        self.botao_entrar = Button(self.janela, text="Entrar", command=self.entrar)
-        self.botao_entrar.pack(pady=20)
-
-        self.janela.mainloop()
-
-    def entrar(self):
-        global TOKEN, headers
-        token = self.entry_token.get()
-        if token:
-            # Define o TOKEN e passa para o sistema
-            TOKEN = token
-            headers = {"Authorization": f"Bearer {TOKEN}"}
-            self.janela.destroy()
-            Aplicacao()  # Chama a aplicação principal
-        else:
-            messagebox.showerror("Erro", "Por favor, insira um TOKEN válido.")"""
-
 class TelaLogin:
     def __init__(self):
         self.janela = Tk()
