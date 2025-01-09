@@ -5,7 +5,7 @@ import webbrowser
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 
-TOKEN = "DC02bOFYWghLLfHqYLv8aslKqMcwRblv6nSa5JaD"#deixar como variavel
+TOKEN = "DC02bOFYWghLLfHqYLv8aslKqMcwRblv6nSa5JaD"
 headers = {"Authorization": f"Bearer {TOKEN}"}
 
 class Relatorios:
