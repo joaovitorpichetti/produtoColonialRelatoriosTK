@@ -5,6 +5,7 @@ import webbrowser
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 
+url = "http://localhost:8000"
 
 # --- Função para autenticação com TOKEN ---
 class TelaLogin:
@@ -32,7 +33,6 @@ class TelaLogin:
 
     def validar_token(self, token):
         """Função para validar o TOKEN com a API."""
-        url = "http://localhost:8000"  # URL da API que você está usando
         headers = {"Authorization": f"Bearer {token}"}
 
         try:
@@ -91,7 +91,6 @@ class Relatorios:
 
 class Funcs:
     def buscar_dados_api(self):
-        url = "http://localhost:8000"  # endpoint da API
         try:
             response = requests.get(url  + "/api/produtores", headers=headers)
             if response.status_code == 200:
@@ -148,7 +147,6 @@ class Faturas(Funcs):
         self.listaFaturas.column("#2", width=150)
 
     def buscar_dados_faturas(self):
-        url = "http://localhost:8000"  # endpoint da API
         try:
             response = requests.get(url + "/api/produtores", headers=headers)
             if response.status_code == 200:
@@ -267,7 +265,6 @@ class RelatoriosProdutos:
 
 class FuncsProdutos:
     def buscar_dados_produtos(self):
-        url = "http://localhost:8000"  # endpoint da API
         try:
             response = requests.get(url + "/api/produtos", headers=headers)
             if response.status_code == 200:
