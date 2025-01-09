@@ -117,7 +117,7 @@ class Funcs:
 
 class Faturas(Funcs):
     def __init__(self):
-        self.janela = Toplevel()
+        self.janela = Tk()
         self.janela.title("Faturas")
         self.janela.geometry("800x600")
         self.janela.resizable(False, False)
@@ -134,7 +134,7 @@ class Faturas(Funcs):
         self.voltar.place(relx=0.01, rely=0.02, relwidth=0.1, relheight=0.05)
 
     def lista_frame(self):
-        self.listaFaturas = ttk.Treeview(self.frame, height=3, columns=("col1", "col2"))
+        self.listaFaturas = ttk.Treeview(self.frame, height=3, columns=("col1", "col2", "col3", "col4"))
         self.listaFaturas.place(relx=0.01, rely=0.1, relwidth=0.96, relheight=0.8)
         self.scroollista = Scrollbar(self.frame, orient='vertical')
         self.listaFaturas.configure(yscrollcommand=self.scroollista.set)
@@ -142,15 +142,20 @@ class Faturas(Funcs):
         self.listaFaturas.heading("#0", text="")
         self.listaFaturas.heading("#1", text="Nome do Produtor")
         self.listaFaturas.heading("#2", text="Plano")
+        self.listaFaturas.heading("#3", text="Valor")
+        self.listaFaturas.heading("#4", text="Data de pagamento")
         self.listaFaturas.column("#0", width=1)
-        self.listaFaturas.column("#1", width=200)
-        self.listaFaturas.column("#2", width=150)
+        self.listaFaturas.column("#1", width=150)
+        self.listaFaturas.column("#3", width=100)
+        self.listaFaturas.column("#4", width=100)
 
     def buscar_dados_faturas(self):
         try:
-            response = requests.get(url + "/api/produtores", headers=headers)
+            response = requests.get(url + "/api/faturas", headers=headers)
             if response.status_code == 200:
-                return response.json()
+                dados = response.json()
+                print(dados)
+                return dados
             else:
                 messagebox.showerror("Erro", f"Erro ao buscar dados: {response.status_code}")
                 return []
@@ -163,9 +168,12 @@ class Faturas(Funcs):
         if dados:
             self.listaFaturas.delete(*self.listaFaturas.get_children())
             for item in dados:
-                nome = item.get("nome")
-                plano = item.get("plano")
-                self.listaFaturas.insert("", "end", values=(nome, plano))
+                dados_plano = item.get("plano", {})
+                nome = item.get("nomeFantasia")
+                nome_plano = dados_plano.get("nome_plano")
+                valor = dados_plano.get("valor")
+                data_de_pagamento = dados_plano.get("data_de_pagamento")
+                self.listaFaturas.insert("", "end", values=(nome, nome_plano, valor, data_de_pagamento))
         else:
             messagebox.showinfo("Informação", "Nenhuma fatura encontrada.")
 
@@ -402,3 +410,4 @@ class Aplicacao:
 # --- Execução da Tela de Login ---
 if __name__ == "__main__":
     TelaLogin()
+
