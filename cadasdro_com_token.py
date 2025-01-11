@@ -4,8 +4,17 @@ from tkinter import ttk, messagebox
 import webbrowser
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+from PIL import Image, ImageTk
+from io import BytesIO
 
-url = "http://localhost:8000"
+urlDoSistema = "http://localhost:8000"
+url_imagem = "https://raw.githubusercontent.com/joaovitorpichetti/produtoColonialRelatoriosTK/refs/heads/master/img/serra_e-commerce.png"
+
+# Função para baixar a imagem da URL
+def baixar_imagem(url):
+    response = requests.get(url)
+    response.raise_for_status() # Verifica se houve algum erro no download
+    return Image.open(BytesIO(response.content))
 
 # --- Função para autenticação com TOKEN ---
 class TelaLogin:
@@ -15,7 +24,11 @@ class TelaLogin:
         self.janela.geometry("400x400")
         self.janela.configure(bg="white")
 
-        self.imagem = PhotoImage(file="img/serra_e-commerce.png")
+        # Baixa a imagem e cria o objeto PhotoImage
+        imagem_pil = baixar_imagem(url_imagem)
+        self.imagem = ImageTk.PhotoImage(imagem_pil)
+
+        #self.imagem = PhotoImage(file="img/serra_e-commerce.png")
         w = Label(self.janela, image=self.imagem, bg="white")
         w.image = self.imagem
         w.pack(pady=5)
@@ -37,7 +50,7 @@ class TelaLogin:
 
         try:
             # Envia uma requisição GET para um endpoint da API (substitua "/api/validar" com o endpoint real)
-            response = requests.get(url + "/api/validar", headers=headers)
+            response = requests.get(urlDoSistema + "/api/validar", headers=headers)
             if response.status_code == 200:
                 return True  # TOKEN válido
             else:
@@ -92,7 +105,7 @@ class Relatorios:
 class Funcs:
     def buscar_dados_api(self):
         try:
-            response = requests.get(url  + "/api/produtores", headers=headers)
+            response = requests.get(urlDoSistema + "/api/produtores", headers=headers)
             if response.status_code == 200:
                 return response.json()
             else:
@@ -151,7 +164,7 @@ class Faturas(Funcs):
 
     def buscar_dados_faturas(self):
         try:
-            response = requests.get(url + "/api/faturas", headers=headers)
+            response = requests.get(urlDoSistema + "/api/faturas", headers=headers)
             if response.status_code == 200:
                 dados = response.json()
                 print(dados)
@@ -274,7 +287,7 @@ class RelatoriosProdutos:
 class FuncsProdutos:
     def buscar_dados_produtos(self):
         try:
-            response = requests.get(url + "/api/produtos", headers=headers)
+            response = requests.get(urlDoSistema + "/api/produtos", headers=headers)
             if response.status_code == 200:
                 return response.json()
             else:
@@ -360,7 +373,10 @@ class Aplicacao:
 
     def img(self):
         try:
-            self.imagem = PhotoImage(file="img/serra_e-commerce.png")
+            # Baixa a imagem e cria o objeto PhotoImage
+            imagem_pil = baixar_imagem(url_imagem)
+            self.imagem = ImageTk.PhotoImage(imagem_pil)
+            #self.imagem = PhotoImage(file="img/serra_e-commerce.png")
             w = Label(self.janela, image=self.imagem, bg="white")
             w.image = self.imagem
             w.pack(pady=15)
@@ -410,4 +426,3 @@ class Aplicacao:
 # --- Execução da Tela de Login ---
 if __name__ == "__main__":
     TelaLogin()
-
