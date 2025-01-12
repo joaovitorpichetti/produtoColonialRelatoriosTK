@@ -7,7 +7,7 @@ from reportlab.lib.pagesizes import letter
 from PIL import Image, ImageTk
 from io import BytesIO
 
-urlDoSistema = "http://localhost:8000"
+urlDoSistema = "https://produtocolonial.fly.dev/"
 url_imagem = "https://raw.githubusercontent.com/joaovitorpichetti/produtoColonialRelatoriosTK/refs/heads/master/img/serra_e-commerce.png"
 
 # Função para baixar a imagem da URL
@@ -402,7 +402,10 @@ class Aplicacao:
         self.relatorio = Button(self.janela, text="Relatórios", bg=button_color, fg=button_text_color)
         self.relatorio.place(relx=0.52, rely=0.7, relwidth=0.2, relheight=0.1)
         self.relatorio.bind("<ButtonPress-1>", lambda e: e.widget.config(bg=hover_color))
-        self.relatorio.bind("<ButtonRelease-1>", lambda e: e.widget.config(bg=button_color))
+        self.relatorio.bind("<ButtonRelease-1>", lambda e: [e.widget.config(bg=button_color), emDesenvolvimento()])
+
+        def emDesenvolvimento():
+            messagebox.showinfo("Aviso", "Em desenvolvimento")
 
         self.fatura = Button(self.janela, text="Faturas", bg=button_color, fg=button_text_color, command=self.abrir_fatura)
         self.fatura.place(relx=0.75, rely=0.7, relwidth=0.2, relheight=0.1)
@@ -421,6 +424,9 @@ class Aplicacao:
     def abrir_fatura(self):
         self.janela.destroy()
         Faturas()
+
+    def emDesenvolvimento(self):
+        messagebox.showinfo("Aviso", "Em desenvolvimento!")
 
 
 # --- Execução da Tela de Login ---
